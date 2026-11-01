@@ -1,15 +1,21 @@
 import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
+import DestinationStats from './components/DestinationStats';
+import DestinationForm from './components/DestinationForm';
 import DestinationCard from './components/DestinationCard';
 import LoadingSkeleton from './components/LoadingSkeleton';
 import ErrorMessage from './components/ErrorMessage';
+import Footer from './components/Footer';
 
+// Endpoint mock API (file ada di public/destinations.json)
+// Untuk tes error, ganti jadi URL yang salah, misalnya: '/destinasi-salah.json'
 const API_ENDPOINT = '/destinations.json';
 
 export default function App() {
   const [destinations, setDestinations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showForm, setShowForm] = useState(false);
 
   const fetchDestinations = async () => {
     setLoading(true);
@@ -35,17 +41,36 @@ export default function App() {
     fetchDestinations();
   }, []);
 
+  const handleAddDestination = (newPlace) => {
+    setDestinations((prev) => [...prev, newPlace]);
+    setShowForm(false);
+  };
+
   return (
     <>
       <Navbar />
 
       <main className="container">
         <section className="intro">
-          <h1>
-            Indonesia lagi <span>cantik-cantiknya.</span>
-          </h1>
-          <p>Jelajahi sekarang!</p>
+          <div>
+            <h1>
+              Indonesia lagi <span>cantik-cantiknya.</span>
+            </h1>
+            <p>Jelajahi sekarang!</p>
+          </div>
+
+          <DestinationStats
+            total={destinations.length}
+            showForm={showForm}
+            onToggleForm={() => setShowForm((prev) => !prev)}
+            onClearAll={() => setDestinations([])}
+            onReset={fetchDestinations}
+          />
         </section>
+
+        {showForm && (
+          <DestinationForm onAddDestination={handleAddDestination} />
+        )}
 
         {loading && <LoadingSkeleton />}
 
@@ -54,17 +79,21 @@ export default function App() {
         )}
 
         {!loading && !error && (
-          <div className="bento">
-            {destinations.map((place) => (
-              <DestinationCard key={place.id} place={place} />
-            ))}
-          </div>
+          destinations.length === 0 ? (
+            <div className="empty-state">
+              <p>Belum ada data destinasi wisata</p>
+            </div>
+          ) : (
+            <div className={destinations.length <= 3 ? 'bento' : 'cards-grid'}>
+              {destinations.map((place) => (
+                <DestinationCard key={place.id} place={place} />
+              ))}
+            </div>
+          )
         )}
       </main>
 
-      <footer className="footer">
-        <div className="container">© 2026 jelajah.</div>
-      </footer>
+      <Footer />
     </>
   );
 }

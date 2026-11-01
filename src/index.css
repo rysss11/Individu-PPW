@@ -23,10 +23,9 @@ body {
 }
 
 #root {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
 .container {
@@ -103,6 +102,10 @@ main.container {
 
 /* ---------- Intro ---------- */
 .intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
   padding: 12px 0 16px;
 }
 
@@ -125,10 +128,125 @@ main.container {
   color: var(--muted);
 }
 
-/* ---------- Bento grid ---------- */
+/* ---------- Stats Bar ---------- */
+.stats-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stats-badge {
+  font-size: 13px;
+  color: var(--muted);
+  background: #fff;
+  border: 1px solid var(--line);
+  padding: 6px 14px;
+  border-radius: 999px;
+}
+
+.stats-badge strong {
+  color: var(--ink);
+}
+
+.stats-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-ghost {
+  font: inherit;
+  font-size: 12.5px;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.btn-ghost:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.btn-toggle-form {
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.btn-toggle-form:hover {
+  background: var(--accent);
+}
+
+/* ---------- Form Tambah Data ---------- */
+.dest-form {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr 0.7fr 1.2fr;
+  gap: 10px;
+}
+
+.form-row-bottom {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+.dest-form input,
+.dest-form select {
+  font: inherit;
+  font-size: 13px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  outline: none;
+}
+
+.dest-form input:focus,
+.dest-form select:focus {
+  border-color: var(--ink);
+  background: #fff;
+}
+
+/* ---------- Empty State ---------- */
+.empty-state {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px dashed var(--line);
+  border-radius: 18px;
+  margin-bottom: 16px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+/* ---------- Bento & Cards Grid ---------- */
 .bento {
   flex: 1;
-  min-height: 0;
+  min-height: 420px;
+  max-height: calc(100vh - 190px);
   display: grid;
   grid-template-columns: 1.35fr 1fr;
   grid-template-rows: 1fr 1fr;
@@ -138,6 +256,14 @@ main.container {
 
 .bento > :first-child {
   grid-row: span 2;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 260px;
+  gap: 14px;
+  padding-bottom: 24px;
 }
 
 @media (max-width: 860px) {
