@@ -1,0 +1,30 @@
+### 1. GET Semua Data Destinasi Wisata (View Data)
+GET http://localhost:3001/destinations
+Accept: application/json
+
+### 2. GET Satu Data Destinasi Wisata Berdasarkan ID
+GET http://localhost:3001/destinations/1
+Accept: application/json
+
+### 3. POST Tambah Destinasi Wisata Baru ke Database Supabase
+POST http://localhost:3001/destinations
+Content-Type: application/json
+
+{
+  "name": "Labuan Bajo",
+  "location": "Nusa Tenggara Timur",
+  "tag": "Laut",
+  "image": "https://images.unsplash.com/photo-1555400038-63f5ba517a47?auto=format&fit=crop&w=1000&q=80",
+  "description": "Gerbang menuju Taman Nasional Komodo dengan gugusan pulau eksotis dan kapal phinisi."
+}
+
+### 4. PATCH Update Data Destinasi Wisata
+PATCH http://localhost:3001/destinations/1
+Content-Type: application/json
+
+{
+  "location": "Raja Ampat, Papua Barat Daya"
+}
+
+### 5. DELETE Hapus Data Destinasi Wisata
+DELETE http://localhost:3001/destinations/4

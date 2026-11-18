@@ -7,9 +7,9 @@ import LoadingSkeleton from './components/LoadingSkeleton';
 import ErrorMessage from './components/ErrorMessage';
 import Footer from './components/Footer';
 
-// Endpoint mock API (file ada di public/destinations.json)
-// Untuk tes error, ganti jadi URL yang salah, misalnya: '/destinasi-salah.json'
-const API_ENDPOINT = '/destinations.json';
+// Endpoint API menuju Backend NestJS + Supabase (http://localhost:3001/destinations)
+// Jika ingin pakai mock lokal tanpa menyalakan backend, ubah menjadi: '/destinations.json'
+const API_ENDPOINT = 'http://localhost:3001/destinations';
 
 export default function App() {
   const [destinations, setDestinations] = useState([]);
@@ -41,7 +41,30 @@ export default function App() {
     fetchDestinations();
   }, []);
 
-  const handleAddDestination = (newPlace) => {
+  const handleAddDestination = async (newPlace) => {
+    if (API_ENDPOINT.startsWith('http')) {
+      try {
+        const res = await fetch(API_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: newPlace.name,
+            location: newPlace.location,
+            tag: newPlace.tag,
+            image: newPlace.image,
+            description: newPlace.description,
+          }),
+        });
+        if (res.ok) {
+          const created = await res.json();
+          setDestinations((prev) => [...prev, created]);
+          setShowForm(false);
+          return;
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
     setDestinations((prev) => [...prev, newPlace]);
     setShowForm(false);
   };
